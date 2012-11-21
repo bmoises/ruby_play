@@ -13,7 +13,7 @@ ruby bin/ruby_play.rb /path/to/music/folder -v
 ruby bin/remote.rb next
 
 ## Stop music
-ruby bin/remote.rb stop
+ruby bin/remote.rb quit
 
 # TODO
 get it to work on other platforms
