@@ -4,6 +4,8 @@ module Music
   end
 
   class Files
+    FORMATS = ["mp3"]
+
     attr_accessor :files
     def initialize(directory, options)
 
@@ -13,7 +15,7 @@ module Music
       end
 
       @files = Dir.glob("#{directory}/**/*").reject{|f| 
-        !(f =~ /.mp3$/)
+        !(f =~ /.(#{FORMATS.join("|")})$/)
       }
       if @options[:shuffle]
         @files.shuffle!

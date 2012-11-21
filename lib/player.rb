@@ -26,6 +26,18 @@ class Player
     }
   end
 
+  def quit
+    @quit = true
+  end
+
+  def done?
+    @quit
+  end
+
+  def next
+    stop
+  end
+
   def stop
     # First killed process
     Process.kill('INT', @process_pid) if @process_pid
