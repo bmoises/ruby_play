@@ -1,5 +1,5 @@
 class Player
-  attr_accessor :player, :thread, :process_pid
+  attr_accessor :player, :thread, :process_pid, :current_file
   def initialize
     case RUBY_PLATFORM.downcase
     when /darwin/
@@ -16,8 +16,10 @@ class Player
   end
 
   def play(file)
+
+    @current_file = file
     stop # Call stop to avoid any problems
-    cmd = "#{self.to_s}  #{file.inspect}"
+    cmd = "#{self.to_s} #{@current_file.inspect}"
 
     @thread = Thread.new {
       POpen4.popen4(cmd){ |pout, perr, pin, pid| 
@@ -40,7 +42,11 @@ class Player
 
   def stop
     # First killed process
-    Process.kill('INT', @process_pid) if @process_pid
+    begin
+      Process.kill('INT', @process_pid) if @process_pid
+    rescue Errno::ESRCH
+      # Do nothing, song finished
+    end
     # Then kill thread
     @thread.kill if @thread
   end

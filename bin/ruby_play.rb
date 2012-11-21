@@ -20,11 +20,23 @@ OptionParser.new do |opts|
   end
 end.parse!
 
+
 player = Player.new
 music_files = Music::Files.new(ARGV.shift, options)
 
 # listen to remote
-remote = RemoteServer.new(player)
+remote = Remote::Server.new do |msg,info|
+  case msg
+  when "next"
+    player.next
+  when "quit"
+    player.quit
+    player.stop
+  else
+    puts "MSG: #{msg} from #{info[2]} (#{info[3]})/#{info[1]} len #{msg.size}"
+  end
+
+end
 
 # Trap Signals
 trap("INT") do
@@ -40,7 +52,6 @@ music_files.each do |file|
   player.play(file)
 
   while(status = player.status)
-    #puts status
     sleep 0.5
   end
 
