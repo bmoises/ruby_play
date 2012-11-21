@@ -1,0 +1,19 @@
+# About
+Simple music player
+
+# Setup
+git clone git@github.com:bmoises/ruby_play.git
+bundle install
+
+# usage
+ruby bin/ruby_play.rb /path/to/music/folder -v
+
+# Using remote
+## skip song
+ruby bin/remote.rb next
+
+## Stop music
+ruby bin/remote.rb stop
+
+# TODO
+get it to work on other platforms
